@@ -2,13 +2,17 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 import plotly.express as px
+import datetime as dt
 
 st.title("Tableau de bord interactif des actions 📈")
 
 ticker = st.text_input("Entrez un ticker (ex: AAPL, TSLA, ^GSPC)", "AAPL")
 
-data = yf.download(ticker, period="1y")
-data["Returns"] = data["Adj Close"].pct_change()
+endDate = dt.datetime.now()
+startDate = endDate - dt.timedelta(days = 365)
+
+data = yf.download(ticker, start = startDate, end = endDate)
+data["Returns"] = data.Close.pct_change()
 
 st.subheader("Données historiques du titre")
 st.write(data.tail())
