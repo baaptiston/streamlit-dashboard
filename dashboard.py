@@ -15,7 +15,7 @@ data = yf.download(ticker, start = startDate, end = endDate)
 data["Returns"] = data.Close.pct_change()
 
 st.subheader("Données historiques du titre")
-st.write(data.Close.tail())
+st.write(data.tail())
 
 st.subheader("Évolution du prix de clôture")
 fig = px.line(data, x=data.index, y=data["Returns"], title=f"Prix de clôture de {ticker}")
