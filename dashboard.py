@@ -18,7 +18,7 @@ st.subheader("Données historiques du titre")
 st.write(data.tail())
 
 st.subheader("Évolution du prix de clôture")
-fig = px.line(data, x=data.index, y=data[Close], title=f"Prix de clôture de {ticker}")
+fig = px.line(data, x=data.index, y=data_returns.index, title=f"Prix de clôture de {ticker}")
 st.plotly_chart(fig)
 
 st.subheader("Distribution des rendements")
