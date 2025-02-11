@@ -12,7 +12,7 @@ endDate = dt.datetime.now()
 startDate = endDate - dt.timedelta(days = 365)
 
 data = yf.download(ticker, start = startDate, end = endDate)
-data_returns = data.Close
+data_returns = data.Close()
 
 st.subheader("Données historiques du titre")
 st.write(data.tail())
