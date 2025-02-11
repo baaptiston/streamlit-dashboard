@@ -22,5 +22,5 @@ fig = px.line(data, x=data.index, y=data.index, title=f"Prix de clôture de {tic
 st.plotly_chart(fig)
 
 st.subheader("Distribution des rendements")
-fig2 = px.histogram(data, x="Returns", nbins=50, title=f"Distribution des rendements de {ticker}")
+fig2 = px.histogram(data, x={data_returns}, nbins=50, title=f"Distribution des rendements de {ticker}")
 st.plotly_chart(fig2)
