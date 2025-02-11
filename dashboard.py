@@ -12,13 +12,13 @@ endDate = dt.datetime.now()
 startDate = endDate - dt.timedelta(days = 365)
 
 data = yf.download(ticker, start = startDate, end = endDate)
-data_returns = data.Close
+data_returns = data.["Close"].pct_change()
 
 st.subheader("Données historiques du titre")
 st.write(data.tail())
 
 st.subheader("Évolution du prix de clôture")
-fig = px.line(data, x=data.index, y=data_returns.index, title=f"Prix de clôture de {ticker}")
+fig = px.line(data, x=data.index, y=data_returns, title=f"Prix de clôture de {ticker}")
 st.plotly_chart(fig)
 
 st.subheader("Distribution des rendements")
