@@ -1,26 +1,27 @@
 import streamlit as st
 import yfinance as yf
-import pandas as pd
-import plotly.express as px
-import datetime as dt
+import plotly.graph_objects as go
 
-# Titre du tableau de bord
-st.title('Tableau de bord interactif des actions')
+# Titre de l'application
+st.title("Tableau de Bord Boursier 📈")
 
-# Texte input pour demander le ticker à analyser
-ticker = st.text_input('Entrez un ticker (ex : AAPL, TSLA, ^GSPC, ...)')
+# Sélection de l'action par l'utilisateur
+ticker = st.text_input("Entrez un ticker (ex: AAPL, TSLA, MSFT) :", "AAPL")
 
-# Déclaration des variables
-end_date = dt.datetime.now()
-start_date = end_date - dt.timedelta(days = 365)
-data_ticker = yf.download(ticker, start = start_date, end = end_date)
-close_prices = data_ticker['Close']
+# Récupération des données
+data_ticker = yf.ticker
+df = data.history(period="6mo")
 
-# Premier graphique : affichage des données historiques du ticker
-st.subheader('Données historiques du titre')
-st.write(data_ticker)
-
-# Deuxième graphique : évolution des prix de clôture
-st.subheader('Evolution des prix de clôture sur 1 an')
-fig = px.line(data_ticker, x = data_ticker.index, y = close_prices, title = f'Prix de clôture de {ticker}')
+# Affichage des prix
+st.subheader(f"Cours de {ticker} sur 6 mois")
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=df.index, y=df['Close'], mode='lines', name="Prix de clôture"))
 st.plotly_chart(fig)
+
+# Affichage des indicateurs (ex: Moyenne Mobile 50 jours)
+st.subheader("Indicateurs techniques")
+df["SMA50"] = df["Close"].rolling(window=50).mean()
+fig2 = go.Figure()
+fig2.add_trace(go.Scatter(x=df.index, y=df['Close'], mode='lines', name="Prix de clôture"))
+fig2.add_trace(go.Scatter(x=df.index, y=df['SMA50'], mode='lines', name="Moyenne mobile 50j", line=dict(dash='dot')))
+st.plotly_chart(fig2)
