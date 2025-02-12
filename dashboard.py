@@ -17,7 +17,7 @@ data_ticker = yf.download(ticker, period="1y")
 
 # Premier graphique : affichage des données historiques du ticker
 st.subheader('Données historiques du titre')
-st.write(data_ticker)
+st.write(data_ticker.tail())
 
 # Deuxième graphique : évolution des prix de clôture
 st.subheader('Evolution des prix de clôture sur 1 an')
