@@ -12,7 +12,9 @@ ticker = st.text_input('Entrez un ticker (ex : AAPL, TSLA, ^GSPC, ...)')
 
 # Déclaration des variables
 data_ticker = yf.download(ticker, period="1y")
-close_prices = data_ticker['Close']
+close_prices = pd.DataFrame(
+  data_ticker(data_ticker.index, data_ticker.Close),
+  columns = ['x', 'y'])
 
 # Premier graphique : affichage des données historiques du ticker
 st.subheader('Données historiques du titre')
@@ -20,5 +22,4 @@ st.write(data_ticker)
 
 # Deuxième graphique : évolution des prix de clôture
 st.subheader('Evolution des prix de clôture sur 1 an')
-fig = px.line(data_ticker, x = data_ticker.index, y = data_ticker['Close'], title = f'Prix de clôture de {ticker}')
-st.plotly_chart(fig)
+st.line_chart(close_prices)
