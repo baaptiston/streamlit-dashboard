@@ -11,7 +11,9 @@ st.title('Tableau de bord interactif des actions')
 ticker = st.text_input('Entrez un ticker (ex : AAPL, TSLA, ^GSPC, ...)')
 
 # Déclaration des variables
-data_ticker = yf.download(ticker, period="1y")
+end_date = dt.datetime.now()
+start_date = end_date - dt.timedelta(days = 365)
+data_ticker = yf.download(ticker, start = start_date, end = end_date)
 close_prices = pd.DataFrame(
   data_ticker(data_ticker.index, data_ticker.Close),
   columns = ['x', 'y'])
