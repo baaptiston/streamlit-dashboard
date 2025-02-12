@@ -4,23 +4,23 @@ import pandas as pd
 import plotly.express as px
 import datetime as dt
 
-st.title("Tableau de bord interactif des actions 📈")
+# Titre du tableau de bord
+st.title('Tableau de bord interactif des actions')
 
-ticker = st.text_input("Entrez un ticker (ex: AAPL, TSLA, ^GSPC)", "AAPL")
+# Texte input pour demander le ticker à analyser
+ticker = st.text_input('Entrez un ticker (ex : AAPL, TSLA, ^GSPC, ...)')
 
-endDate = dt.datetime.now()
-startDate = endDate - dt.timedelta(days = 365)
+# Déclaration des variables
+end_date = dt.datetime.now()
+start_date = end_date - dt.timedelta(days = 365)
+data_ticker = yf.download(ticker, start = start_date, end = end_date)
+close_prices = data_ticker['Close']
 
-data = yf.download(ticker, start = startDate, end = endDate)
-data_returns = data["Close"].pct_change()
+# Premier graphique : affichage des données historiques du ticker
+st.subheader('Données historiques du titre')
+st.write(data_ticker)
 
-st.subheader("Données historiques du titre")
-st.write(data.tail())
-
-st.subheader("Évolution du prix de clôture")
-fig = px.line(data, x=data.index, y=data_returns.index, title=f"Prix de clôture de {ticker}")
+# Deuxième graphique : évolution des prix de clôture
+st.subheader('Evolution des prix de clôture sur 1 an')
+fig = px.line(data_ticker, x = data_ticker.index, y = close_prices, title = f'Prix de clôture de {ticker}')
 st.plotly_chart(fig)
-
-st.subheader("Distribution des rendements")
-fig2 = px.histogram(data, x=data[Close], nbins=50, title=f"Distribution des rendements de {ticker}")
-st.plotly_chart(fig2)
